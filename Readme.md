@@ -1,7 +1,7 @@
 # Личный проект «TaskForce»
 
 * Студент: [Николай Думчев](https://up.htmlacademy.ru/yii/1/user/38064).
-* Наставник: `Неизвестно`.
+* Наставник: [Михаил Куприянов](https://htmlacademy.ru/profile/id541075).
 
 ---
 
