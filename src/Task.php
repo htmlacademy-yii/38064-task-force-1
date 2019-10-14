@@ -4,26 +4,20 @@
 
 class Task {
 
-    const ACTIONS = [
-        'cancel' => 0,
-        'start' => 1,
-        'finish' => 2,
-        'respond' => 3,
-        'refuse' => 4,
-    ];
+    const ACTION_CANCEL = 1;
+    const ACTION_START = 2;
+    const ACTION_FINISH = 4;
+    const ACTION_RESPOND = 8;
+    const ACTION_REFUSE = 16;
 
-    const STATUSES = [
-        'new' => 0,
-        'active' => 1,
-        'finished' => 2,
-        'cancelled' => 3,
-        'failed' => 4,
-    ];
+    const STATUS_NEW = 0;
+    const STATUS_ACTIVE = 1;
+    const STATUS_FINISHED = 2;
+    const STATUS_CANCELLED = 3;
+    const STATUS_FAILED = 4;
 
-    const ACTORS = [
-        'customer' => 0,
-        'contractor' => 1,
-    ];
+    const ACTOR_CUSTOMER = 0;
+    const ACTOR_CONTRACTOR = 1;
 
     private $customerId;
     private $contractorId;
@@ -36,7 +30,7 @@ class Task {
     public function __construct($customerId, $completionDate) {
         $this->customerId = $customerId;
         $this->completionDate = $completionDate;
-        $this->status = self::STATUSES['new'];
+        $this->status = self::STATUS_NEW;
     }
 
     public function getAvailableStatuses() {
@@ -52,16 +46,16 @@ class Task {
     }
 
     public function cancel() {
-        $this->status = self::STATUSES['cancelled'];
+        $this->status = self::STATUS_CANCELLED;
     }
 
     public function start($contractorId) {
-        $this->status = self::STATUSES['active'];
+        $this->status = self::STATUS_ACTIVE;
         $this->contractorId = $contractorId;
     }
 
     public function finish() {
-        $this->status = self::STATUSES['finished'];
+        $this->status = self::STATUS_FINISHED;
     }
 
     public function respond() {
@@ -69,6 +63,6 @@ class Task {
     }
 
     public function refuse() {
-        $this->status = self::STATUSES['failed'];
+        $this->status = self::STATUS_FAILED;
     }
 }
