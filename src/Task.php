@@ -2,67 +2,72 @@
 
 //namespace src;
 
-class Task {
-
-    const ACTION_CANCEL = 1;
-    const ACTION_START = 2;
-    const ACTION_FINISH = 4;
-    const ACTION_RESPOND = 8;
-    const ACTION_REFUSE = 16;
-
-    const STATUS_NEW = 0;
-    const STATUS_ACTIVE = 1;
-    const STATUS_FINISHED = 2;
-    const STATUS_CANCELLED = 3;
-    const STATUS_FAILED = 4;
-
-    const ACTOR_CUSTOMER = 0;
-    const ACTOR_CONTRACTOR = 1;
-
+class Task
+{
+    /** @var int */
     private $customerId;
+
+    /** @var int */
     private $contractorId;
-    private $completionDate;
+
+    /** @var int */
+    private $deadline;
+
+    /** @var int */
     private $status;
 
-    private $availableStatuses = [];
-    private $availableActions = [];
+    private $lifecycleMap = [
+        TaskStatus::NEW => [
+            TaskAction::ACCEPT => TaskStatus::IN_PROGRESS,
+            TaskAction::CANCEL => TaskStatus::CANCELLED,
+        ],
+        TaskStatus::IN_PROGRESS => [
+            TaskAction::COMPLETE => TaskStatus::COMPLETED,
+            TaskAction::REJECT => TaskStatus::FAILED,
+        ],
+    ];
 
-    public function __construct($customerId, $completionDate) {
+    public function __construct(int $status, int $deadline, int $customerId, int $contractorId = null)
+    {
+        $this->status = $status;
+        $this->deadline = $deadline;
         $this->customerId = $customerId;
-        $this->completionDate = $completionDate;
-        $this->status = self::STATUS_NEW;
-    }
-
-    public function getAvailableStatuses() {
-        return $this->availableStatuses;
-    }
-
-    public function getAvailableActions() {
-        return $this->availableActions;
-    }
-
-    public function getCurrentStatus() {
-        return $this->status;
-    }
-
-    public function cancel() {
-        $this->status = self::STATUS_CANCELLED;
-    }
-
-    public function start($contractorId) {
-        $this->status = self::STATUS_ACTIVE;
         $this->contractorId = $contractorId;
     }
 
-    public function finish() {
-        $this->status = self::STATUS_FINISHED;
+    public function getNextStatus(int $action): int
+    {
+        return $this->lifecycleMap[$this->status][$action] ?? null;
     }
 
-    public function respond() {
-
+    public function accept(int $contractorId): void
+    {
+        $this->contractorId = $contractorId;
+        $this->status = TaskStatus::IN_PROGRESS;
     }
 
-    public function refuse() {
-        $this->status = self::STATUS_FAILED;
-    }
+    //    public function getCurrentStatus()
+    //    {
+    //        return $this->status;
+    //    }
+    //
+    //    public function cancel()
+    //    {
+    //        $this->status = self::STATUS_CANCELLED;
+    //    }
+    //
+    //    public function finish()
+    //    {
+    //        $this->status = self::STATUS_FINISHED;
+    //    }
+    //
+    //    public function respond()
+    //    {
+    //
+    //    }
+    //
+    //    public function refuse()
+    //    {
+    //        $this->status = self::STATUS_FAILED;
+    //    }
 }
