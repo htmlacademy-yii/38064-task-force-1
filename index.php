@@ -1,8 +1,10 @@
 <?php
+require_once 'vendor/autoload.php';
 
-require_once 'src/Task.php';
-require_once 'src/TaskStatus.php';
-require_once 'src/TaskAction.php';
+use Common\Task;
+use Common\TaskAction;
+use Common\TaskStatus;
+
 
 $newTask = new Task(TaskStatus::NEW, date_timestamp_get(date_create('tomorrow')), 1);
 
