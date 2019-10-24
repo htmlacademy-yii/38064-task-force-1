@@ -1,16 +1,16 @@
 <?php
 
-//namespace src;
+namespace Common;
 
 class Task
 {
     /** @var int */
     private $customerId;
 
-    /** @var int */
+    /** @var int |null */
     private $contractorId;
 
-    /** @var int */
+    /** @var int | null */
     private $deadline;
 
     /** @var int */
@@ -27,12 +27,12 @@ class Task
         ],
     ];
 
-    public function __construct(int $status, int $deadline, int $customerId, int $contractorId = null)
+    public function __construct(int $status, int $customerId, int $contractorId = null, int $deadline = null)
     {
         $this->status = $status;
-        $this->deadline = $deadline;
         $this->customerId = $customerId;
         $this->contractorId = $contractorId;
+        $this->deadline = $deadline;
     }
 
     public function getNextStatus(int $action): int
@@ -45,29 +45,4 @@ class Task
         $this->contractorId = $contractorId;
         $this->status = TaskStatus::IN_PROGRESS;
     }
-
-    //    public function getCurrentStatus()
-    //    {
-    //        return $this->status;
-    //    }
-    //
-    //    public function cancel()
-    //    {
-    //        $this->status = self::STATUS_CANCELLED;
-    //    }
-    //
-    //    public function finish()
-    //    {
-    //        $this->status = self::STATUS_FINISHED;
-    //    }
-    //
-    //    public function respond()
-    //    {
-    //
-    //    }
-    //
-    //    public function refuse()
-    //    {
-    //        $this->status = self::STATUS_FAILED;
-    //    }
 }
